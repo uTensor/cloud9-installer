@@ -65,6 +65,4 @@ chkInstall "tar xvjf $installDir/gcc-arm-none-eabi.tar.bz2 -C $installDir" "extr
 chkStatus "rm $installDir/*.tar.bz2"
 chkStatus "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
 
-#chkStatus "sudo yum upgrade python-pip"
-
-chkStatus "pip install tensorflow"
+chkStatus "pip --no-cache-dir install tensorflow"
