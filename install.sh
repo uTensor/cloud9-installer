@@ -20,11 +20,7 @@ gccURL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2017q4/gcc-ar
 chkInstall() {
     
     printf "\nPerforming $2:\n"
-    stdout=`tty`
-    #arg1 arg2 arg3 >stdout.txt 2>stderr.txt
-    #msg=`$1 > tee -a $stdout ./$logfile 2>&1 | tail -n 25 ./$logfile | tee $stdout | tail -n 5`
     msg=`$1 2>&1 | tail -f -n 5 | tee $stdout`
-    #msg=`$1 2>&1 | less -F | tee $stdout`
     
     if [[ $msg =~ $3 ]]; then
         printf "$2...    [${grn} OK ${end}]\n"
@@ -37,44 +33,37 @@ chkInstall() {
 
 }
 
-chkQuiet() {
-    msg="$($1 2>&1)"
-    if [ -n "$msg" ] && ! [[ "$msg" =~ "^\n$" ]]; then
-        echo $msg > ./$logfile
-        echo "Error :"
-        echo "$msg"
-        printf "Please share the install.log with the developers\n"
-        exit 1
+#cmd
+chkStatus() {
+    if [ $# -eq 2 ]; then
+        msg=$2
+    else
+        msg=$1
     fi
+    
+    outputmsg=`$1 `
+    if [ $? -eq 0 ]; then
+        printf "$msg        [${grn} OK ${end}]\n"
+    else
+        printf "$msg        [${red} Failed ${end}]\n"
+        exit 1
+    fi    
 }
 
-chkQuiet "mkdir $installDir"
+
+chkStatus "mkdir $installDir"
 
 # downloading gcc
-chkInstall "wget $gccURL -t 3 -O $installDir/gcc-arm-none-eabi.tar.bz2" "downloading GCC" "saved"
+chkStatus "wget $gccURL -t 3 -O $installDir/gcc-arm-none-eabi.tar.bz2" "downloading GCC"
 
 ## decompress
 
 chkInstall "tar xvjf $installDir/gcc-arm-none-eabi.tar.bz2 -C $installDir" "extracting GCC" "gcc-arm-none-eabi-7-2017-q4-major/bin/arm-none-eabi-gcc"
 
 ## book keeping
-chkQuiet "rm $installDir/*.tar.bz2"
-chkQuiet "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
+chkStatus "rm $installDir/*.tar.bz2"
+chkStatus "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
 
-# sudo pip install --upgrade pip
-# printf("pip upgrade    ")
-# if [ $? -eq 0 ]; then
-#     printf "[${grn} OK ${end}]\n"
-# else
-#     printf "[${red} Failed ${end}]\n"
-#     EXIT 1
-# fi
+chkStatus "sudo yum upgrade python-pip"
 
-sudo pip install tensorflow
-printf("installing tensorflow     ")
-if [ $? -eq 0 ]; then
-    printf "[${grn} OK ${end}]\n"
-else
-    printf "[${red} Failed ${end}]\n"
-    EXIT 1
-fi
+chkStatus "sudo pip install tensorflow"
