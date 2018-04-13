@@ -60,3 +60,21 @@ chkInstall "tar xvjf $installDir/gcc-arm-none-eabi.tar.bz2 -C $installDir" "extr
 ## book keeping
 chkQuiet "rm $installDir/*.tar.bz2"
 chkQuiet "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
+
+# sudo pip install --upgrade pip
+# printf("pip upgrade    ")
+# if [ $? -eq 0 ]; then
+#     printf "[${grn} OK ${end}]\n"
+# else
+#     printf "[${red} Failed ${end}]\n"
+#     EXIT 1
+# fi
+
+sudo pip install tensorflow
+printf("installing tensorflow     ")
+if [ $? -eq 0 ]; then
+    printf "[${grn} OK ${end}]\n"
+else
+    printf "[${red} Failed ${end}]\n"
+    EXIT 1
+fi
