@@ -8,4 +8,11 @@ mag=$'\e[1;35m'
 cyn=$'\e[1;36m'
 end=$'\e[0m'
 
-printf "[${grn} OK ${end}]\n"
+chkInstall() {
+  printf "$1\n"
+  printf "$2\n"
+  printf "[${grn} OK ${end}]\n"
+}
+
+chkInstall "cmd" "pattern"
+
