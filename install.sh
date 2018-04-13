@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+##bash <(curl -s https://raw.githubusercontent.com/neil-tan/cloud9-installer/master/install.sh)
 red=$'\e[1;31m'
 grn=$'\e[1;32m'
 yel=$'\e[1;33m'
@@ -64,6 +65,6 @@ chkInstall "tar xvjf $installDir/gcc-arm-none-eabi.tar.bz2 -C $installDir" "extr
 chkStatus "rm $installDir/*.tar.bz2"
 chkStatus "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
 
-chkStatus "sudo yum upgrade python-pip"
+#chkStatus "sudo yum upgrade python-pip"
 
-chkStatus "sudo pip install tensorflow"
+chkStatus "pip install tensorflow"
