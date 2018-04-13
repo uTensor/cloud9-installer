@@ -21,14 +21,17 @@ chkInstall() {
     
     printf "\nPerforming $2:\n"
     stdout=`tty`
-    msg=`$1 | tail -n 25 | tee -a ./$logfile`
-    msg=`cat ./$logfile | tail -n 5`
+    #arg1 arg2 arg3 >stdout.txt 2>stderr.txt
+    #msg=`$1 > tee -a $stdout ./$logfile 2>&1 | tail -n 25 ./$logfile | tee $stdout | tail -n 5`
+    msg=`$1 2>&1 | tail -f -n 5 | tee $stdout`
+    #msg=`$1 2>&1 | less -F | tee $stdout`
     
     if [[ $msg =~ $3 ]]; then
         printf "$2...    [${grn} OK ${end}]\n"
     else
         printf "$2...    [${red} Failed ${end}]\n"
         printf "Please share the install.log with the developers\n"
+        #echo $msg > ./$logfile
         exit 1
     fi
 
@@ -44,35 +47,16 @@ chkQuiet() {
         exit 1
     fi
 }
-#cat README.md | tee /dev/pts/1 | tail -n 2
 
-# cmd="echo something"
+chkQuiet "mkdir $installDir"
 
-# `$cmd` | grep 'string' > /dev/null
-# if [ $? == 0 ]; then
-#   echo "matched"
-# fi
-
-#chkInstall "intalling git" "cmd" "patterns"
-#echo $BASE
-
-## making the dir for the tools
-# msg="$(mkdir $installDir 2>&1)"
-# if [ -n "$msg" ] && ! [[ "$msg" =~ "^\n$" ]]; then
-#     echo $msg > ./$logfile
-#     echo "Error :"
-#     echo "$msg"
-#     printf "Please share the install.log with the developers\n"
-#     exit 1
-# fi
-
-#chkQuiet "mkdir $installDir"
-
-# # downloading gcc
-# chkInstall "wget $gccURL -t 3 -O $installDir/gcc-arm-none-eabi.tar.bz2" "downloading GCC" "saved"
+# downloading gcc
+chkInstall "wget $gccURL -t 3 -O $installDir/gcc-arm-none-eabi.tar.bz2" "downloading GCC" "saved"
 
 ## decompress
 
-#chkInstall "tar xvjf $installDir/gcc-arm-none-eabi.tar.bz2 -C $installDir" "extracting GCC" "gcc-arm-none-eabi-7-2017-q4-major/bin/arm-none-eabi-gcc"
+chkInstall "tar xvjf $installDir/gcc-arm-none-eabi.tar.bz2 -C $installDir" "extracting GCC" "gcc-arm-none-eabi-7-2017-q4-major/bin/arm-none-eabi-gcc"
 
+## book keeping
 chkQuiet "rm $installDir/*.tar.bz2"
+chkQuiet "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
