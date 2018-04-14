@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-##bash <(curl -s https://raw.githubusercontent.com/neil-tan/cloud9-installer/master/install.sh)
+## One liner:
+## bash <(curl -s https://raw.githubusercontent.com/neil-tan/cloud9-installer/master/install.sh)
+
 red=$'\e[1;31m'
 grn=$'\e[1;32m'
 yel=$'\e[1;33m'
@@ -9,6 +11,8 @@ mag=$'\e[1;35m'
 cyn=$'\e[1;36m'
 end=$'\e[0m'
 
+
+##### Path and files
 logfile="install.log"
 
 installDir=`realpath ~/environment`
@@ -21,7 +25,10 @@ gccURL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2017q4/gcc-ar
 chkInstall() {
     
     printf "\nPerforming $2:\n"
-    msg=`$1 2>&1 | tail -f -n 5 | tee $stdout`
+    printf "$1"
+    `$1`
+    #msg=$($1 2>&1 | tail -f -n 10)
+    printf "$msg"
     
     if [[ $msg =~ $3 ]]; then
         printf "$2...    [${grn} OK ${end}]\n"
@@ -32,6 +39,15 @@ chkInstall() {
         exit 1
     fi
 
+}
+
+chkLastCmd() {
+    if [ $? -eq 0 ]; then
+        printf "      [${grn} OK ${end}]\n"
+    else
+        printf "      [${red} Failed ${end}]\n"
+        exit 1
+    fi  
 }
 
 #cmd
@@ -48,21 +64,53 @@ chkStatus() {
     else
         printf "$msg        [${red} Failed ${end}]\n"
         exit 1
-    fi    
+    fi 
 }
 
+####### Instatllation Start
 
 chkStatus "mkdir $installDir"
 
-# downloading gcc
+####### Instatlling GCC
 chkStatus "wget $gccURL -t 3 -O $installDir/gcc-arm-none-eabi.tar.bz2" "downloading GCC"
 
-## decompress
-
+#  decompress
 chkInstall "tar xvjf $installDir/gcc-arm-none-eabi.tar.bz2 -C $installDir" "extracting GCC" "gcc-arm-none-eabi-7-2017-q4-major/bin/arm-none-eabi-gcc"
 
-## book keeping
+# book keeping
 chkStatus "rm $installDir/*.tar.bz2"
 chkStatus "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
+gccPath="$installDir/gcc-arm-none-eabi"
 
+###### Installing TensorFlow
 chkStatus "pip --no-cache-dir install tensorflow"
+
+###### Installating uTensor CLI
+ut_cgen_dir="$installDir/utensor_cgen"
+getUT_cli() {
+    cd $installDir
+
+    git clone https://github.com/uTensor/utensor_cgen.git
+    chkLastCmd
+    
+    cd $ut_cgen_dir
+    
+    git checkout develop
+    chkLastCmd
+    
+    sudo python setup.py develop
+    chkLastCmd
+}
+
+
+getUT_cli
+
+######## Installing Mbed
+
+chkStatus "sudo yum -y install hg"
+chkStatus "sudo pip install intelhex prettytable junit_xml beautifulsoup4 fuzzywuzzy"
+chkStatus "sudo pip install mbed-cli"
+
+chkStatus "mbed config -G GCC_ARM_PATH "$gccPath/bin""
+
+echo "\n\n uTensor Mbed installation successful!"
