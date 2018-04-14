@@ -20,27 +20,7 @@ installDir=`echo "$installDir/tools"`
 
 gccURL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2017q4/gcc-arm-none-eabi-7-2017-q4-major-linux.tar.bz2?revision=375265d4-e9b5-41c8-bf23-56cbe927e156?product=GNU%20Arm%20Embedded%20Toolchain,64-bit,,Linux,7-2017-q4-major"
 
-
-#msg cmd pattern invert
-chkInstall() {
-    
-    printf "\nPerforming $2:\n"
-    printf "$1"
-    `$1`
-    #msg=$($1 2>&1 | tail -f -n 10)
-    printf "$msg"
-    
-    if [[ $msg =~ $3 ]]; then
-        printf "$2...    [${grn} OK ${end}]\n"
-    else
-        printf "$2...    [${red} Failed ${end}]\n"
-        printf "Please share the install.log with the developers\n"
-        #echo $msg > ./$logfile
-        exit 1
-    fi
-
-}
-
+#cmd
 chkLastCmd() {
     if [ $? -eq 0 ]; then
         printf "      [${grn} OK ${end}]\n"
@@ -50,7 +30,7 @@ chkLastCmd() {
     fi  
 }
 
-#cmd
+#cmd msg
 chkStatus() {
     if [ $# -eq 2 ]; then
         msg=$2
@@ -75,7 +55,8 @@ chkStatus "mkdir $installDir"
 chkStatus "wget $gccURL -t 3 -O $installDir/gcc-arm-none-eabi.tar.bz2" "downloading GCC"
 
 #  decompress
-chkInstall "tar xvjf $installDir/gcc-arm-none-eabi.tar.bz2 -C $installDir" "extracting GCC" "gcc-arm-none-eabi-7-2017-q4-major/bin/arm-none-eabi-gcc"
+printf "Extracting GCC..."
+chkStatus "tar xvjf $installDir/gcc-arm-none-eabi.tar.bz2 -C $installDir"
 
 # book keeping
 chkStatus "rm $installDir/*.tar.bz2"
