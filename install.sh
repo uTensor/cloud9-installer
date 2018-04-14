@@ -64,7 +64,8 @@ chkStatus "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
 gccPath="$installDir/gcc-arm-none-eabi"
 
 ###### Installing TensorFlow
-chkStatus "pip --no-cache-dir install tensorflow"
+printf "\nInstalling TensorFlow"
+chkStatus "sudo pip --no-cache-dir install tensorflow"
 
 ###### Installating uTensor CLI
 ut_cgen_dir="$installDir/utensor_cgen"
