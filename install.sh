@@ -20,16 +20,6 @@ installDir=`echo "$installDir/tools"`
 
 gccURL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2017q4/gcc-arm-none-eabi-7-2017-q4-major-linux.tar.bz2?revision=375265d4-e9b5-41c8-bf23-56cbe927e156?product=GNU%20Arm%20Embedded%20Toolchain,64-bit,,Linux,7-2017-q4-major"
 
-#cmd
-chkLastCmd() {
-    if [ $? -eq 0 ]; then
-        printf "      [${grn} OK ${end}]\n"
-    else
-        printf "      [${red} Failed ${end}]\n"
-        exit 1
-    fi  
-}
-
 #cmd msg
 chkStatus() {
     if [ $# -eq 2 ]; then
@@ -68,24 +58,7 @@ printf "\nInstalling TensorFlow"
 chkStatus "sudo pip --no-cache-dir install tensorflow"
 
 ###### Installating uTensor CLI
-ut_cgen_dir="$installDir/utensor_cgen"
-getUT_cli() {
-    cd $installDir
-
-    git clone https://github.com/uTensor/utensor_cgen.git
-    chkLastCmd
-    
-    cd $ut_cgen_dir
-    
-    git checkout develop
-    chkLastCmd
-    
-    sudo python setup.py develop
-    chkLastCmd
-}
-
-
-getUT_cli
+chkStatus "sudo pip install utensor_cgen" "uTensor-cli installation"
 
 ######## Installing Mbed
 
