@@ -45,7 +45,7 @@
 
 Let the script run
 
-![installer output](docs/img/console2.jpg)
+![installer output](docs/img/screenshot.jpg)
   
 ## What's Next?
-Try the quick-start guide
+Try the [quick-start guide](https://github.com/uTensor/utensor-mnist-demo)
