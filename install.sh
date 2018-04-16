@@ -55,10 +55,10 @@ gccPath="$installDir/gcc-arm-none-eabi"
 
 ###### Installing TensorFlow
 printf "\nInstalling TensorFlow"
-chkStatus "sudo pip --no-cache-dir install tensorflow"
+chkStatus "sudo pip --no-cache-dir install tensorflow==1.4.1"
 
 ###### Installating uTensor CLI
-chkStatus "sudo pip install utensor_cgen" "uTensor-cli installation"
+chkStatus "sudo pip install utensor_cgen==0.1.2" "uTensor-cli installation"
 
 ######## Installing Mbed
 
