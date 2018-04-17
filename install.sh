@@ -55,7 +55,7 @@ gccPath="$installDir/gcc-arm-none-eabi"
 
 ###### Installing TensorFlow
 printf "\nInstalling TensorFlow"
-chkStatus "sudo pip --no-cache-dir install tensorflow"
+chkStatus "sudo pip --no-cache-dir install tensorflow==1.7.0"
 
 ###### Installating uTensor CLI
 chkStatus "sudo pip install utensor_cgen" "uTensor-cli installation"
