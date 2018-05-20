@@ -53,12 +53,21 @@ chkStatus "rm $installDir/*.tar.bz2"
 chkStatus "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
 gccPath="$installDir/gcc-arm-none-eabi"
 
+###### Installing Other Requirements
+chkStatus "sudo pip install scipy"
+chkStatus "sudo pip install matplotlib"
+
 ###### Installing TensorFlow
 printf "\nInstalling TensorFlow"
 chkStatus "sudo pip --no-cache-dir install tensorflow==1.7.0"
 
+###### Installing Other Requirements
+chkStatus "sudo pip install scipy"
+
 ###### Installating uTensor CLI
-chkStatus "sudo pip install utensor_cgen" "uTensor-cli installation"
+chkStatus "cd $installDir/tools && git clone git@github.com:uTensor/utensor_cgen.git"
+chkStatus "cd $installDir/tools/utensor_cgen && git checkout develop"
+chkStatus "cd $installDir/tools/utensor_cgen && python setup.py develop"
 
 ######## Installing Mbed
 
