@@ -65,9 +65,7 @@ chkStatus "sudo pip --no-cache-dir install tensorflow==1.7.0"
 chkStatus "sudo pip install scipy"
 
 ###### Installating uTensor CLI
-chkStatus "cd $installDir/tools && git clone git@github.com:uTensor/utensor_cgen.git"
-chkStatus "cd $installDir/tools/utensor_cgen && git checkout develop"
-chkStatus "cd $installDir/tools/utensor_cgen && python setup.py develop"
+chkStatus "sudo pip install utensor_cgen" "uTensor-cli installation"
 
 ######## Installing Mbed
 
