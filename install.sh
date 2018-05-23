@@ -53,16 +53,14 @@ chkStatus "rm $installDir/*.tar.bz2"
 chkStatus "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
 gccPath="$installDir/gcc-arm-none-eabi"
 
-###### Installing Other Requirements
+###### Installing Supporting Packages
 chkStatus "sudo pip install scipy"
 chkStatus "sudo pip install matplotlib"
+chkStatus "sudo pip install opencv-python"
 
 ###### Installing TensorFlow
 printf "\nInstalling TensorFlow"
 chkStatus "sudo pip --no-cache-dir install tensorflow==1.7.0"
-
-###### Installing Other Requirements
-chkStatus "sudo pip install scipy"
 
 ###### Installating uTensor CLI
 chkStatus "sudo pip install utensor_cgen" "uTensor-cli installation"
