@@ -69,6 +69,7 @@ chkStatus "sudo pip install utensor_cgen" "uTensor-cli installation"
 
 chkStatus "sudo yum -y install hg"
 chkStatus "sudo pip install intelhex prettytable junit_xml beautifulsoup4 fuzzywuzzy"
+chkStatus "sudo pip install pyelftools jsonschema mbed_host_tests future"
 chkStatus "sudo pip install mbed-cli"
 
 chkStatus "mbed config -G GCC_ARM_PATH "$gccPath/bin""
