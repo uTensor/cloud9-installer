@@ -54,23 +54,23 @@ chkStatus "mv $installDir/gcc-arm-none-eabi* $installDir/gcc-arm-none-eabi"
 gccPath="$installDir/gcc-arm-none-eabi"
 
 ###### Installing Supporting Packages
-chkStatus "sudo pip install scipy"
-chkStatus "sudo pip install matplotlib"
-chkStatus "sudo pip install opencv-python"
+#chkStatus "sudo pip install scipy"
+#chkStatus "sudo pip install matplotlib"
+#chkStatus "sudo pip install opencv-python"
 
 ###### Installing TensorFlow
 printf "\nInstalling TensorFlow"
 chkStatus "sudo pip --no-cache-dir install tensorflow==1.7.0"
 
 ###### Installating uTensor CLI
-chkStatus "sudo pip install utensor_cgen" "uTensor-cli installation"
+chkStatus "sudo pip --no-cache-dir install utensor_cgen" "uTensor-cli installation"
 
 ######## Installing Mbed
 
 chkStatus "sudo yum -y install hg"
-chkStatus "sudo pip install intelhex prettytable junit_xml beautifulsoup4 fuzzywuzzy"
-chkStatus "sudo pip install pyelftools jsonschema mbed_host_tests future"
-chkStatus "sudo pip install mbed-cli"
+chkStatus "sudo pip --no-cache-dir install intelhex prettytable junit_xml beautifulsoup4 fuzzywuzzy"
+chkStatus "sudo pip --no-cache-dir install pyelftools jsonschema mbed_host_tests future"
+chkStatus "sudo pip --no-cache-dir install mbed-cli"
 
 chkStatus "mbed config -G GCC_ARM_PATH "$gccPath/bin""
 
